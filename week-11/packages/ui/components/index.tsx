@@ -1,2 +1,3 @@
 export * from './Signup';
-export * from './Temp';
+export * from './Landing';
+export * from './Courses';

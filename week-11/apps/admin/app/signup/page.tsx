@@ -3,8 +3,8 @@ import Signup from 'ui/components/Signup'
 
 const page = () => {
   return (
-      <div>
-          <Signup />
+    <div>
+      <Signup />
     </div>
   )
 }

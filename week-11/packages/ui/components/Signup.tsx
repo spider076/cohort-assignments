@@ -44,7 +44,7 @@ const Signup = () => {
   };
 
   return (
-    <main className="bg-[#f31f1f] h-[100vh]">
+    <main className="bg-[rgb(29,29,29)] h-[100vh]">
       <BackButton />
       <div
         style={{
@@ -85,7 +85,7 @@ const Signup = () => {
 
         <Button
           //   size={"large"}
-          className="bg-blue-400 px-8 text-white hover:text-black"
+          className="bg-blue-600 px-8 text-white hover:text-black"
           variant="secondary"
           onClick={signupHandler}
         >
