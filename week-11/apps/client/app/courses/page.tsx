@@ -4,7 +4,7 @@ import Courses from 'ui/components/Courses'
 const page = () => {
     return (
         <main>
-            <Courses />
+            <Courses isAdmin={false} />
       </main>
   )
 }

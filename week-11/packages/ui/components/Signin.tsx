@@ -6,9 +6,13 @@ import { Input } from "../@/components/ui/input";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const SignIn = () => {
+interface Prop {
+  onClick: (username: String, password: String) => void;
+}
+
+const SignIn = ({ onClick }: Prop) => {
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = React.useState("");
 
   const router = useRouter();
 
@@ -35,8 +39,8 @@ const SignIn = () => {
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <label htmlFor="email">Email</label>
             <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               type="email"
               id="email"
               placeholder="Email"
@@ -73,21 +77,7 @@ const SignIn = () => {
           //   size={"large"}
           className="bg-blue-400 px-8 text-white hover:text-black"
           variant="secondary"
-          onClick={async () => {
-            const response = fetch(`api/signup`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                username: email,
-                password: password,
-              }),
-            });
-            let data = (await response).json();
-            router.push('/courses');
-            console.log("data : ", data);
-          }}
+          onClick={async () => onClick(username, password)}
         >
           {" "}
           Signin

@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "ui": "*"
+    "ui": "*",
+    "db": "*",
+    "store": "*"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.19",

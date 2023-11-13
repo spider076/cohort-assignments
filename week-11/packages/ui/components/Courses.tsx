@@ -8,16 +8,24 @@ import { useRouter } from "next/navigation";
 /// I've added one input so you understand the api to do it.
 
 interface CourseObj {
-    name: String | null;
-    desc: String | null;
-    author: String | null;
+    title: String | null;
+    description: String | null;
+    image: String | null;
+    price: Number | null;
+    published: boolean;
 }
 
-function Courses() {
+interface Props {
+    isAdmin: boolean;
+}
+
+function Courses({ isAdmin }: Props) {
     const [course, setCourse] = React.useState<CourseObj>({
-        name: 'name',
-        desc: "desc",
-        author: "author",
+        title: 'title',
+        description: "description",
+        image: "imageLink",
+        price: 32,
+        published: false
     });
     const [status, setStatus] = useState("");
     const [courses, setCourses] = useState([]);
@@ -27,9 +35,10 @@ function Courses() {
     const navigate = useRouter();
 
     const getCourses = async () => {
-        let res = await axios.get("http://localhost:3000/user/courses", {
+        let res = await axios.get("api/courses", {
             headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
+        console.log('res data : ', res);
         setCourses(res.data.courses);
         console.log("courses : ", courses);
         return courses;
@@ -67,11 +76,14 @@ function Courses() {
         try {
             await axios
                 .post(
-                    "http://localhost:3000/user/courses",
+                    "api/courses",
                     {
-                        name: course.name,
-                        desc: course.desc,
-                        author: course.author,
+                        title: course.title,
+                        description: course.description,
+                        price: course.price,
+                        image: course.image,
+                        published: course.published,
+                        purchasedCourses: []
                     },
                     {
                         headers: {
@@ -81,7 +93,7 @@ function Courses() {
                 )
                 .then((e) => {
                     console.log(e);
-                    setStatus(course.name + " added in succesfully !");
+                    setStatus(course.title + " added in succesfully !");
                     getCourses();
                 })
                 .catch((err) => {
@@ -119,47 +131,79 @@ function Courses() {
                     </h2>
                 )}
             </div>
-            <div className="flex border-b border-gray-800 flex-col py-4">
-                <div className="font-semibold text-[1.2rem] text-gray-800">
-                    Create Course :
-                </div>
-                <div className="py-5 px-20 flex flex-col space-y-2">
-                    {status && (
-                        <p className="text-red-600 font-semibold text-[0.9rem] text-center">
-                            {status}
-                        </p>
-                    )}
-                    <input
-                        type={"text"}
-                        className="outline-none px-2 py-2 rounded-md text-gray-200 sm:w-[400px]"
-                        placeholder="name"
-                        // value={course.name}
-                        onChange={(e) => setCourse({ ...course, name: e.target.value })}
-                    />
-                    <input
-                        type={"text"}
-                        className="outline-none px-2 py-2 rounded-md text-gray-200 sm:w-[400px]"
-                        placeholder="description"
-                        // value={course.desc}
-                        onChange={(e) => setCourse({ ...course, desc: e.target.value })}
-                    />
-                    <input
-                        type={"text"}
-                        className="outline-none px-2 py-2 rounded-md text-gray-200 sm:w-[400px]"
-                        placeholder="author"
-                        // value={course.author}
-                        onChange={(e) => setCourse({ ...course, author: e.target.value })}
-                    />
-                    <div className="pt-10">
-                        <button
-                            className="px-3 py-1 hover:bg-green-400 bg-green-600 rounded-md"
-                            onClick={(e) => addCourse(e)}
-                        >
-                            Create Course
-                        </button>
+            {!isAdmin ? null : (
+                <div className="flex bg-gray-900 border-b border-gray-800 flex-col py-4">
+                    <div className="font-semibold text-[1.2rem] text-gray-300">
+                        Create Course :
+                    </div>
+                    <div className="py-5 px-20 flex flex-col space-y-2">
+                        {status && (
+                            <p className="text-red-600 font-semibold text-[0.9rem] text-center">
+                                {status}
+                            </p>
+                        )}
+                        <input
+                            type={"text"}
+                            className="outline-none px-2 py-2 rounded-md text-gray-800 sm:w-[400px]"
+                            placeholder="title"
+                            // value={course.name}
+                            onChange={(e) => {
+                                e.preventDefault()
+                                setCourse({ ...course, title: e.target.value })
+                            }}
+                        />
+                        <input
+                            type={"text"}
+                            className="outline-none px-2 py-2 rounded-md text-gray-800 sm:w-[400px]"
+                            placeholder="imageLink"
+                            // value={course.desc}
+                            onChange={(e) => {
+                                e.preventDefault()
+                                setCourse({ ...course, image: e.target.value })
+                            }}
+                        />
+                        {/* <input
+                            type={"text"}
+                            className="outline-none px-2 py-2 rounded-md text-gray-800 sm:w-[400px]"
+                            placeholder="description"
+                            // value={course.desc}
+                            onChange={(e) => {
+                                e.preventDefault()
+                                setCourse({ ...course, description: e.target.value })
+                            }}
+                        /> */}
+                        <input
+                            type={"text"}
+                            className="outline-none px-2 py-2 rounded-md text-gray-800 sm:w-[400px]"
+                            placeholder="description"
+                            // value={course.desc}
+                            onChange={(e) => {
+                                e.preventDefault()
+                                setCourse({ ...course, description: e.target.value })
+                            }}
+                        />
+                        <input
+                            type={"text"}
+                            className="outline-none px-2 py-2 rounded-md text-gray-800 sm:w-[400px]"
+                            placeholder="author"
+                            // value={course.author}
+                            onChange={(e) => {
+                                e.preventDefault()
+                                setCourse({ ...course, price: Number(e.target.value) })
+                            }}
+                        />
+                        <div className="pt-10">
+                            <button
+                                className="px-3 py-1 hover:bg-green-400 bg-green-600 rounded-md"
+                                onClick={(e) => addCourse(e)}
+                            >
+                                Create Course
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
             <div className="pt-4 flex flex-grow justify-between">
                 {/* all courses */}
                 <div className="flex-1 border-r border-gray-600">

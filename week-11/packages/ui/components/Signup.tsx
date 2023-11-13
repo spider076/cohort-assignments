@@ -7,7 +7,9 @@ import BackButton from "../@/components/BackButton";
 import { z } from "zod";
 // import { Label } from "@/components/ui/label";
 
-const Signup = () => {
+const Signup = ({ onClick }: {
+  onClick: (username: String, password: String) => void;
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -87,7 +89,7 @@ const Signup = () => {
           //   size={"large"}
           className="bg-blue-600 px-8 text-white hover:text-black"
           variant="secondary"
-          onClick={signupHandler}
+          onClick={()=> onClick(email, password)}
         >
           {" "}
           Signup
