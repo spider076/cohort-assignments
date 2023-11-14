@@ -54,7 +54,7 @@ function Courses({ isAdmin }: Props) {
     };
 
     const getUsername = async () => {
-        let res = await axios.get("http://localhost:3000/user/me", {
+        let res = await axios.get("api/me", {
             headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
         // console.log('user name : ', username)
@@ -213,7 +213,7 @@ function Courses({ isAdmin }: Props) {
                             courses.map((c, i) => (
                                 <div
                                     // @ts-ignore 
-                                    onClick={() => navigate.push(`/course/${c._id}`)}
+                                    onClick={() => navigate.push(`course/${c._id}`)}
                                     className="flex hover:bg-gray-800 rounded-md px-2 cursor-pointer py-4 border-b border-gray-300 flex-col space-y-1"
                                     key={i}
                                 >

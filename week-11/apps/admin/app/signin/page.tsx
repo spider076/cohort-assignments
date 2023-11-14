@@ -11,7 +11,7 @@ const page = () => {
   return (
     <main>
       <Signin onClick={async (username, password) => {
-        const response = fetch(`api/signup`, {
+        const response = await fetch(`api/signin`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -21,8 +21,15 @@ const page = () => {
             password: password,
           }),
         });
-        let data = (await response).json();
-        router.push('/courses');
+        let data = await response.json();
+        alert(data.message);
+        if (response.status !== 200) {
+          return;
+        } else {
+          localStorage.setItem("token", data.token);
+          router.push('/courses');
+        }
+        // router.push('/courses');
         console.log("data : ", data);
       }}
       />

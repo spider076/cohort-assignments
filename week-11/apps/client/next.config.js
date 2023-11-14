@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["ui", "db"],
+  transpilePackages: ["ui", "db", "store"],
   images: {
     domains: ['img.freepik.com']
   }
