@@ -4,6 +4,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import CourseDetails from "./CourseDetails";
+import { useRecoilState } from "recoil";
+import { coursedetailState } from "store";
 /// You need to add input boxes to take input for users to create a course.
 /// I've added one input so you understand the api to do it.
 
@@ -109,7 +112,7 @@ function Courses({ isAdmin }: Props) {
     console.log("courses : ", courses);
 
     return (
-        <div className="px-4 w-[100vw]">
+        <div className="relative px-4 w-[100vw]">
             <div className="flex justify-between items-center">
                 <h1
                     className="text-center text-[1.7rem] cursor-pointer font-semibold text-blue-500"
@@ -212,8 +215,11 @@ function Courses({ isAdmin }: Props) {
                         {courses && courses.length > 0 ? (
                             courses.map((c, i) => (
                                 <div
+                                    onClick={() => {
                                     // @ts-ignore 
-                                    onClick={() => navigate.push(`course/${c._id}`)}
+
+                                        navigate.push(`course/${c._id}`)
+                                    }}
                                     className="flex hover:bg-gray-800 rounded-md px-2 cursor-pointer py-4 border-b border-gray-300 flex-col space-y-1"
                                     key={i}
                                 >

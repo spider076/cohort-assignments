@@ -6,10 +6,14 @@ import { useRouter } from "next/navigation";
 
 const AuthButtons = () => {
   const router = useRouter();
+  const token = localStorage.getItem('token');
+
 
   return (
     <div className="space-x-2">
-      <Button
+      {token !== undefined ? (
+        <>
+        <Button
         onClick={() => {
           router.push("/signup");
         }}
@@ -25,7 +29,11 @@ const AuthButtons = () => {
         variant={"destructive"}
       >
         Sign In
-      </Button>
+          </Button>
+          </>
+      ) : (
+          "hello there" 
+      )}
     </div>
   );
 };

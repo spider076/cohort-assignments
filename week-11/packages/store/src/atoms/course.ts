@@ -7,3 +7,8 @@ export const courseState = atom({
     course: null
   },
 });
+
+export const coursedetailState = atom({
+  key: 'coursedetailState',
+  default: false
+})
