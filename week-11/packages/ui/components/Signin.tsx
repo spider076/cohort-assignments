@@ -4,17 +4,41 @@ import BackButton from "../@/components/BackButton";
 import { Button } from "../@/components/ui/button";
 import { Input } from "../@/components/ui/input";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 interface Prop {
-  onClick: (username: String, password: String) => void;
+  onClick: (username: String, password: String) => any;
 }
 
 const SignIn = ({ onClick }: Prop) => {
   const [password, setPassword] = React.useState("");
   const [username, setUsername] = React.useState("");
+  const [response, setResponse] = useState<{ message: String, status: Number, token: any }>({
+    message: "",
+    status: 404,
+    token: null
+  });
 
   const router = useRouter();
+
+
+  const clickHandler = async () => {
+    const r = await onClick(username, password);
+    // @ts-ignore
+    setResponse(r);
+
+    if (r.status !== 200) {
+      alert('Invalid Username or Password');
+    } else {
+      localStorage.setItem("token", r.token);
+      router.push('/courses');
+    }
+    // router.push('/courses');
+    console.log("data : ", r);
+  }
+
+
+
 
   return (
     <main className="bg-[#191919] h-[100vh]">
@@ -73,11 +97,13 @@ const SignIn = ({ onClick }: Prop) => {
           <br></br>
         </div>
 
+        <p className="pb-5 text-orange-600 font-semibold text-[1.1rem]">{response.message}</p>
+
         <Button
           //   size={"large"}
           className="bg-blue-400 px-8 text-white hover:text-black"
           variant="secondary"
-          onClick={async () => onClick(username, password)}
+          onClick={clickHandler}
         >
           {" "}
           Signin

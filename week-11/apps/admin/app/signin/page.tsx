@@ -22,15 +22,8 @@ const page = () => {
           }),
         });
         let data = await response.json();
-        alert(data.message);
-        if (response.status !== 200) {
-          return;
-        } else {
-          localStorage.setItem("token", data.token);
-          router.push('/courses');
-        }
-        // router.push('/courses');
-        console.log("data : ", data);
+        console.log('data :', data);
+        return data;
       }}
       />
     </main>

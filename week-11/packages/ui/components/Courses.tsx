@@ -216,7 +216,7 @@ function Courses({ isAdmin }: Props) {
                             courses.map((c, i) => (
                                 <div
                                     onClick={() => {
-                                    // @ts-ignore 
+                                        // @ts-ignore 
 
                                         navigate.push(`course/${c._id}`)
                                     }}
@@ -239,43 +239,49 @@ function Courses({ isAdmin }: Props) {
                         )}
                     </div>
                 </div>
-                {/* purchasedCourses */}
-                <div className="flex-1 ml-4">
-                    <h1 className="font-semibold text-[1.2rem]">Purchased Courses : </h1>
-                    <div className="mr-auto px-2
-           flex flex-col space-y-1 text-[0.9rem]">
-                        {!purchasedCourses ?
-                            <h2 className="mt-10 text-red-600 mx-auto">You have not yet purchased any course !</h2>
-                            : purchasedCourses.map((c, i) => (
-                                <div
-                                    // @ts-ignore
-                                    onClick={() => navigate.push(`/course/${c._id}`)}
-                                    className="flex hover:bg-gray-800 rounded-md px-2
+
+
+                {isAdmin ? null : (
+                    <section>
+                        {/* purchasedCourses */}
+                        <div className="flex-1 ml-4">
+                            <h1 className="font-semibold text-[1.2rem]">Purchased Courses : </h1>
+                            <div className="mr-auto px-2
+                        flex flex-col space-y-1 text-[0.9rem]">
+                                {!purchasedCourses ?
+                                    <h2 className="mt-10 text-red-600 mx-auto">You have not yet purchased any course !</h2>
+                                    : purchasedCourses.map((c, i) => (
+                                        <div
+                                            // @ts-ignore
+                                            onClick={() => navigate.push(`/course/${c._id}`)}
+                                            className="flex hover:bg-gray-800 rounded-md px-2
                 cursor-pointer py-4 border-b border-gray-300 flex-col space-y-1"
-                                    key={i}
-                                >
-                                    {/* name */}
-                                    {/* <div className="flex space-x-2"> */}
-                                    <p>{i}</p>
-                                    {/* @ts-ignore */}
+                                            key={i}
+                                        >
+                                            {/* name */}
+                                            {/* <div className="flex space-x-2"> */}
+                                            <p>{i}</p>
+                                            {/* @ts-ignore */}
 
-                                    <h4>Name : {c.title}</h4>
-                                    {/* @ts-ignore */}
+                                            <h4>Name : {c.title}</h4>
+                                            {/* @ts-ignore */}
 
-                                    <h4>Description : {c.description}</h4>
-                                    {/* @ts-ignore */}
+                                            <h4>Description : {c.description}</h4>
+                                            {/* @ts-ignore */}
 
-                                    <h4>Author : {c.price}</h4>
-                                    {/* @ts-ignore */}
+                                            <h4>Author : {c.price}</h4>
+                                            {/* @ts-ignore */}
 
-                                    <h4>Published : {c.published ? "true" : "false"}</h4>
-                                    {/* </div> */}
-                                </div>
-                            ))}
-                    </div>
-                </div>
+                                            <h4>Published : {c.published ? "true" : "false"}</h4>
+                                            {/* </div> */}
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
             </div>
-        </div>
+        </div >
     );
 }
 export default Courses;
