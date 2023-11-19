@@ -34,7 +34,7 @@ const CourseDetails = () => {
     price: "price",
     author: "author"
   });
-  const [role, setRole] = useState(false);
+  const [role, setRole] = useState("");
   const [showUpdateComp, setUpdateComp] = useState(false);
 
   const router = useRouter();
@@ -112,7 +112,9 @@ const CourseDetails = () => {
         console.log(e);
         setStatus("this course is not found in database !");
     }
-};
+  };
+  
+  console.log('role : ', role);
 
 
   useEffect(() => {
@@ -136,7 +138,7 @@ const CourseDetails = () => {
           <p className="text-gray-700 mb-2">Price: {course.price}</p>
           <p className="text-gray-700">Author: {course.author}</p>
           {
-            role ? (
+            role === "admin" ? (
               <button onClick={updatehandler} className='mt-3 w-full p-1 rounded-md bg-red-500'>Update Course</button>
             ) : (
               <button className='mt-3 w-full p-1 rounded-md bg-red-500'>Purchase Course</button>

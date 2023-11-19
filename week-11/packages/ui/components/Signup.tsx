@@ -4,46 +4,66 @@ import { useState } from "react";
 import { Input } from "../@/components/ui/input";
 import { Button } from "../@/components/ui/button";
 import BackButton from "../@/components/BackButton";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
+// import { z } from "zod";
 // import { Label } from "@/components/ui/label";
 
 const Signup = ({ onClick }: {
-  onClick: (username: String, password: String) => void;
+  onClick: (username: String, password: String) => any;
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const signupInputs = z.object({
-    username: z.string().email(),
-    password: z.string().min(4),
+  const [response, setResponse] = useState<{ message: String, status: Number, token: any }>({
+    message: "",
+    status: 404,
+    token: null
   });
+  const router = useRouter();
 
-  const signupHandler = async () => {
-    // const zodAuth = signupInputs.safeParse({ email, password }); // zod authentication in frontend
-    // console.log('zodAuth : ', { email, password });
+  // const signupInputs = z.object({
+  //   username: z.string().email(),
+  //   password: z.string().min(4),
+  // });
 
-    // if (!zodAuth.success) {
-    //   alert("invalid username or password");
-    //   return;
-    // }
+  // const signupHandler = async () => {
+  //   // const zodAuth = signupInputs.safeParse({ email, password }); // zod authentication in frontend
+  //   // console.log('zodAuth : ', { email, password });
 
-    const response = fetch(`api/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-    let data = (await response).json();
-    console.log("data : ", data);
-    // localStorage.setItem("token", data);
-    // window.location = "/"
-    // setUser({ userEmail: email, isLoading: false });
-    // router.push("/courses");
-  };
+  //   // if (!zodAuth.success) {
+  //   //   alert("invalid username or password");
+  //   //   return;
+  //   // }
+
+  //   const response = fetch(`api/signup`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       email: email,
+  //       password: password,
+  //     }),
+  //   });
+  //   let data = (await response).json();
+  //   console.log("data : ", data);
+ 
+  // };
+
+  
+  const clickHandler = async () => {
+    const r = await onClick(email, password);
+    // @ts-ignore
+    setResponse(r);
+
+    if (r.status !== 200) {
+      alert('Invalid Username or Password');
+    } else {
+      localStorage.setItem("token", r.token);
+      router.push('/courses');
+    }
+    // router.push('/courses');
+    console.log("data : ", r);
+  }
 
   return (
     <main className="bg-[rgb(29,29,29)] h-[100vh]">
@@ -85,11 +105,13 @@ const Signup = ({ onClick }: {
         <br />
         <br />
 
+        <p className="pb-5 text-orange-600 font-semibold text-[1.1rem]">{response.message}</p>
+
         <Button
           //   size={"large"}
           className="bg-blue-600 px-8 text-white hover:text-black"
           variant="secondary"
-          onClick={()=> onClick(email, password)}
+          onClick={clickHandler}
         >
           {" "}
           Signup
