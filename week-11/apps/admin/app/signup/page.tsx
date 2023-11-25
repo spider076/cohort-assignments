@@ -27,7 +27,6 @@ const page = () => {
         if (response.status !== 200) {
           return;
         } else {
-          localStorage.setItem("token", data.token);
           router.push('/courses');
         }
       }}

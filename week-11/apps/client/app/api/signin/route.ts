@@ -8,7 +8,7 @@ const SECRET = 'secret';
 
 export async function POST(req: Request) {
     await dbConnect();
-    
+
     const body = await req.json();
     const username = body.username;
     console.log('body : ', body);
@@ -19,7 +19,9 @@ export async function POST(req: Request) {
 
         if (userFound) {
             const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
-            return NextResponse.json({ message: "You Logged in Succesfully !", token: token, status: 200 });
+            const response = NextResponse.json({ message: "You Logged in Succesfully !", token: token, status: 200 });
+            response.cookies.set('token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
+            return response;
         } else {
             return NextResponse.json({ message: 'Invalid User username or password .', status: 403 }, { status: 403 })
         }

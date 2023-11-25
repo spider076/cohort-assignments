@@ -5,6 +5,7 @@ import { Input } from "../@/components/ui/input";
 import { Button } from "../@/components/ui/button";
 import BackButton from "../@/components/BackButton";
 import { useRouter } from "next/navigation";
+import { cookies } from 'next/headers'
 // import { z } from "zod";
 // import { Label } from "@/components/ui/label";
 
@@ -18,6 +19,7 @@ const Signup = ({ onClick }: {
     status: 404,
     token: null
   });
+
   const router = useRouter();
 
   // const signupInputs = z.object({
@@ -46,19 +48,19 @@ const Signup = ({ onClick }: {
   //   });
   //   let data = (await response).json();
   //   console.log("data : ", data);
- 
+
   // };
 
-  
+
   const clickHandler = async () => {
     const r = await onClick(email, password);
     // @ts-ignore
     setResponse(r);
 
+
     if (r.status !== 200) {
       alert('Invalid Username or Password');
     } else {
-      localStorage.setItem("token", r.token);
       router.push('/courses');
     }
     // router.push('/courses');

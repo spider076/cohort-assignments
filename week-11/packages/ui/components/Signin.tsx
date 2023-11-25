@@ -30,7 +30,6 @@ const SignIn = ({ onClick }: Prop) => {
     if (r.status !== 200) {
       alert('Invalid Username or Password');
     } else {
-      localStorage.setItem("token", r.token);
       router.push('/courses');
     }
     // router.push('/courses');

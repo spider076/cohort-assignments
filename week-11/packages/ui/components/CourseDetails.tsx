@@ -95,7 +95,7 @@ const CourseDetails = () => {
                 },
                 {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token"),
+                        // Authorization: "Bearer " + ,
                     },
                 }
             )
@@ -114,8 +114,11 @@ const CourseDetails = () => {
     }
   };
   
-  console.log('role : ', role);
+  const purchaseCourseHandler = async () => {
+    console.log('hi');
+  }
 
+  console.log('role : ', role);
 
   useEffect(() => {
     getCourse();
@@ -141,7 +144,7 @@ const CourseDetails = () => {
             role === "admin" ? (
               <button onClick={updatehandler} className='mt-3 w-full p-1 rounded-md bg-red-500'>Update Course</button>
             ) : (
-              <button className='mt-3 w-full p-1 rounded-md bg-red-500'>Purchase Course</button>
+              <button onClick={purchaseCourseHandler} className='mt-3 w-full p-1 rounded-md bg-red-500'>Purchase Course</button>
             )
           }
         </div>

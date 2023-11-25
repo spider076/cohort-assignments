@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { dbConnect } from "../../lib/dbConnect";
+import { cookies } from 'next/headers'
 
 const SECRET = "secret";
 
@@ -20,11 +21,13 @@ export async function POST(req: Request,) {
         return NextResponse.json({ message: 'User already exists', status: 400 }, { status: 400 });
     } else {
         const obj = { username: username, password: password };
+        const oneDay = 24 * 60 * 60 * 1000;
         const newUser = new User(obj);
         newUser.save();
-
         const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
-        return NextResponse.json({ message: 'User created successfully !', token , status: 200 });
+        const response = NextResponse.json({ message: 'User created successfully !', token, status: 200 });
+        response.cookies.set('token', token, { expires: new Date(Date.now() + 60 * 60 * 1000) });
+        return response;
     }
 }
 
