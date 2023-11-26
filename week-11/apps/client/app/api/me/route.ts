@@ -1,20 +1,14 @@
 import { Admin } from "db";
 import { NextRequest, NextResponse } from "next/server";
-import { getDataFromToken } from "ui";
+import getDataFromToken from "ui/components/getDataFromToken";
+// import { getDataFromToken } from "ui";
 
 export async function GET(req: NextRequest) {
-    // const body = await req.json();
-    // const admin = await Admin.findOne({ username: body.username });
-    // if (!admin) {
-    //     return NextResponse.json({ msg: "Admin doesnt exist" }, { status: 403 });
-    // }
-    let cookie = req.cookies.get("token")?.value;
-    let data = getDataFromToken(NextRequest);
-    alert('hi ; '+ data);
-    const response = NextResponse.json({
-        // username: admin.username,
-        token: cookie,
-        role: 'user'
-    });
-    return response;
+    try {
+        const data = await getDataFromToken(req);
+        const response = NextResponse.json(data);
+        return response;
+    } catch (e: any) {
+        return NextResponse.json({ error: e.message }, { status: 400 });
+    }
 }

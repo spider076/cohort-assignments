@@ -7,27 +7,34 @@ import axios from "axios";
 
 const AuthButtons = () => {
   const router = useRouter();
-  const [show, setShow] = useState(false);
+  const [user, setUser] = useState<String | null>("");
 
 
   const get = async () => {
-    const res = await axios.get('/api/me');
-    const token = res.data.token;
-    console.log('token : ', token);
-    if (token && token != undefined) {
-      setShow(true);
+    try {
+      const res = await axios.get('/api/me');
+      const  username  = res.data.username;
+      setUser(username);      
+    } catch (e) {
+      setUser(null);
     }
+    
   };
+
+  const logout = async () => {
+    const res = await axios.get('/api/logout');
+    alert(res.data.message);
+    location.reload();
+  }
 
   useEffect(() => {
     get();
   }, []);
 
-
-
+  console.log('user : ', user);
   return (
     <div className="space-x-2">
-      {!show ? (
+      {user == null ? (
         <>
           <Button
             onClick={() => {
@@ -48,7 +55,16 @@ const AuthButtons = () => {
           </Button>
         </>
       ) : (
-        "hello there"
+        <div className="flex gap-3">
+          <p>{user}</p>
+          <Button
+            onClick={logout}
+            className="bg-red-300 px-7 text-white rounded-lg"
+            variant={"destructive"}
+          >
+            Logout
+          </Button>
+        </div>
       )}
     </div>
   );

@@ -39,7 +39,7 @@ function Courses({ isAdmin }: Props) {
 
     const getCourses = async () => {
         let res = await axios.get("api/courses", {
-            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            // headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
         console.log('res data : ', res);
         setCourses(res.data.courses);
@@ -49,7 +49,7 @@ function Courses({ isAdmin }: Props) {
 
     const getPurchasedCourses = async () => {
         let res = await axios.get("http://localhost:3000/user/purchasedCourses", {
-            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            // headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
         setPurchasedCourses(res.data.purchasedCourses);
         console.log("purchasedCourses : ", res.data.purchasedCourses);
@@ -58,7 +58,7 @@ function Courses({ isAdmin }: Props) {
 
     const getUsername = async () => {
         let res = await axios.get("api/me", {
-            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            // headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
         // console.log('user name : ', username)
         setUser(res.data.username);
@@ -90,7 +90,7 @@ function Courses({ isAdmin }: Props) {
                     },
                     {
                         headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token"),
+                            // Authorization: "Bearer " + localStorage.getItem("token"),
                         },
                     }
                 )
