@@ -15,7 +15,7 @@ async function getUsers() {
 async function getUserFromEmail(email: string) {
     const client = await getClient();
     
-    const selectUserText = 'SELECT * FROM users WHERE email = $1';
+    const selectUserText = 'SELECT * FROM users WHERE email = $1'; 
     const userRes = await client.query(selectUserText, [email]);
     
     console.log("Single User detail:");
