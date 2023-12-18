@@ -28,6 +28,6 @@ main()
     process.exit(1)
   })
 
-prisma.$on("query", async (e) => {
+prisma.$on("query", async (e: any) => {
     console.log(`${e.query} ${e.params}`)
 });
