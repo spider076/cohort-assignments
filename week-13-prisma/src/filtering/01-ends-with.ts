@@ -26,7 +26,7 @@ async function main() {
         },
       },
     })
-    console.log(res);
+    console.log("resonse", res);
     
 }
 

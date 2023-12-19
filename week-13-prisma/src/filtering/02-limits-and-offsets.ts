@@ -1,3 +1,5 @@
+// You can use this functionality query while working on pagination for a website
+
 
 import { PrismaClient } from '@prisma/client'
 
@@ -6,11 +8,11 @@ const prisma = new PrismaClient({
 })
 
 async function main() {
-  let res = await prisma.post.findMany({
-    take: 3
+  let pagination = await prisma.post.findMany({
+    take: 3,
+    skip: 1
   })
-    console.log(res);
-    
+  console.log(pagination);
 }
 
 main()
