@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "tsc -b && node dist/server/index.js",
+    "client": "tsc -b && node dist/client/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "@trpc/client": "^10.44.1",
-    "@trpc/server": "^10.44.1"
+    "@trpc/server": "^10.44.1",
+    "fs": "^0.0.1-security",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5"
   }
 }
