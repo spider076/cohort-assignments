@@ -4,20 +4,25 @@ import type { AppRouter } from '../server/index';
 
 // Pass AppRouter as generic here. 👇 This lets the `trpc` object know
 // what procedures are available on the server and their input/output types.
-const trpc = createTRPCProxyClient<AppRouter>({
+export const trpc = createTRPCProxyClient<AppRouter>({
     links: [
         httpBatchLink({
             url: 'http://localhost:3000',
+            headers() {
+                return {
+                    Authorization: "Beared 1232",
+                }
+            }
         }),
     ],
 });
 
 const createTodo = async () => {
     const response = await trpc.createTodo.mutate({
-        id: 1,
-        title: "test",
-        description: "test Description",
-        done: true
+        id: 2,
+        title: "test2",
+        description: "test Description 2",
+        done: false
     });
 
     console.log("resposne : ", response);
@@ -48,4 +53,4 @@ setTimeout(() => {
     console.log("reading call executing !");
     showTodos();
 
-}, 5000)
+}, 5000);

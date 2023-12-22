@@ -13,26 +13,40 @@ const TodoInputTypes = z.object({
 
 const appRouter = router({
     createTodo: publicProcedure
-        .input(TodoInputTypes)
-        .mutation(async (opts) => {
+        .input(z.object({
+            id: z.number(),
+            title: z.string(),
+            description: z.string(),
+            done: z.boolean()
+        })).mutation(async (opts) => {
+            const user = opts.ctx.user;
             const { input } = opts;
-            try {
-                await fs.promises.writeFile("./db/todos.json", JSON.stringify(input, null, 2), 'utf-8');
-                console.log("File written successfully");
-                return {
-                    message: "todo created succesfully !",
-                    id: "1",
-                }
-            } catch (err) {
-                console.error(err);
-                return {
-                    error: err,
-                    message: "todo was not created !"
-                }
-            };
+            const todos = await fs.promises.readFile("./db/todos.json", "utf-8");
+            const data = JSON.parse(todos);
 
-        }),
-    showTodos: publicProcedure
+            if (user) {
+                try {
+                    data.push(input);
+                    await fs.promises.writeFile("./db/todos.json", JSON.stringify(data, null, 2), 'utf-8');
+                    console.log("Todo Added successfully");
+                    return {
+                        message: "todo created succesfully !",
+                        id: "1",
+                    }
+                } catch (err) {
+                    console.error(err);
+                    return {
+                        error: err,
+                        message: "todo was not created !"
+                    }
+                }
+            } else {
+                return {
+                    message: "Invalid User/Permission Denied !"
+                }
+            }
+        }), 
+        showTodos: publicProcedure
         .query(async (opts) => {
             try {
                 const response = await fs.readFileSync("./db/todos.json", "utf-8");
@@ -49,20 +63,22 @@ const appRouter = router({
                     error: err,
                 }
             }
-
+        
         }),
-    signUp: publicProcedure
+        signUp: publicProcedure
         .input(z.object({
             email: z.string().email(),
             password: z.string().max(10)
         }))
         .mutation(async (opts) => {
             const { email, password } = opts.input;
+            const user = opts.ctx.user;
+            console.log("user : ", user);
             return {
                 email,
                 password
             }
-    })
+        })
 })
 
 
@@ -73,6 +89,14 @@ export type AppRouter = typeof appRouter;
 
 const server = createHTTPServer({
     router: appRouter,
+    createContext(opts) {
+        let authHeader = opts.req.headers["authorization"];
+        console.log(authHeader);
+        // some jwt magic to verify the user 
+        return {
+            user: "saad",
+        }
+    }
 });
 
 server.listen(3000);
