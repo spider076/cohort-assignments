@@ -8,7 +8,7 @@ import { todoRouter } from './routers/todo';
 import cors from "cors";
 export const SECRET = 'SECr3t';
 
-mongoose.connect('mongodb+srv://kirattechnologies:iRbi4XRDdM7JMMkl@cluster0.e95bnsi.mongodb.net/admin?authSource=admin&replicaSet=atlas-ue73sj-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true', { dbName: "todo" });
+mongoose.connect('mongodb+srv://saad76:EKrYWkWPUSQHTLLn@cluster0.wgmqb0q.mongodb.net/', { dbName: "todo" });
 
 // using trpc
 const appRouter = router({

@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "tsc -b && node ./dist/server/index.js",
+    "client": "tsc -b && node ./dist/client/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

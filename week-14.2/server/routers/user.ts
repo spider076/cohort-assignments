@@ -6,6 +6,11 @@ import { TRPCError } from "@trpc/server";
 import { isLoggedIn } from "../middleware/user";
 
 export const userRouter = router({
+    test: publicProcedure
+        .query(async (opts) => {
+            console.log("test query working !!!");
+            return "hi there !";
+        }),
     signup: publicProcedure
         .input(z.object({
             username: z.string(),

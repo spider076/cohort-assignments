@@ -17,7 +17,7 @@ const trpc = createTRPCProxyClient<AppRouter>({
 
 async function main() {
     const user = await trpc.user.signup.mutate({
-        username: "harkirat@gmail.com",
+        username: "saad@gmail.com",
         password: "!23456"
     });
     console.log(user.token);
